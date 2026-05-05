@@ -5,7 +5,9 @@
 ---
 
 ## 📑 Tabla de Contenidos
-
+1-10 Nihaht
+11 Rojas
+12 Danilo
 1. [Resumen del Proyecto](#1-resumen-del-proyecto)
 2. [Stack Tecnológico](#2-stack-tecnológico)
 3. [Arquitectura del Sistema](#3-arquitectura-del-sistema)
