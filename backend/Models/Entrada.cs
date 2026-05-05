@@ -8,7 +8,7 @@ public class Entrada
     public string CodigoQR { get; set; } = Guid.NewGuid().ToString();
     public string Estado { get; set; } = "Activa";
 
-    public int IdReserva { get; set; }
+    public int? IdReserva { get; set; }
     public Reserva? Reserva { get; set; }
 
     public int IdEvento { get; set; }
