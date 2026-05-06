@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="../Chostito.Web/chostito.web.esproj">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="Web Api Proyecto.csproj" />
 </Solution>
