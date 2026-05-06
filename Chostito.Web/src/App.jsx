@@ -2,147 +2,55 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
-import Login from './Login'
-import ListaEventos from './ListaEventos'
+import Login from './components/Login'
+import ListaEventos from './components/ListaEventos'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-    const eventosFicticios = [
-        { id: 1, titulo: "Concierto Chostito", eslogan: "El mejor mosh" },
-        { id: 2, titulo: "Feria de Comida", eslogan: "Empanadas gratis" }
-    ];
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    const [count, setCount] = useState(0)
+    // Estado único para el login
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
-      <div className="ticks"></div>
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false); 
+        // No es necesario recargar la página si usas el estado de React
+    };
 
-        <section id="next-steps">
-        <div>
-            <h1>Bienvenido a Chostito</h1>
-
-            {/* Llamamos al componente Login */}
-            <Login />
-
-            <hr />
-
-            {/* Usamos map para mostrar los eventos */}
-            <h2>Próximos Eventos:</h2>
-            {eventosFicticios.map((ev) => (
-                <div key={ev.id}>
-                    <h3>{ev.titulo}</h3>
-                    <p>{ev.eslogan}</p>
+    return (
+        <>
+            <section id="center">
+                <div className="hero">
+                    <img src={heroImg} className="base" width="170" height="179" alt="" />
+                    <img src={reactLogo} className="framework" alt="React logo" />
+                    <img src={viteLogo} className="vite" alt="Vite logo" />
                 </div>
-            ))}
-        </div>
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+                <div>
+                    <h1>Chostito App</h1>
+                    <p>Contador de prueba: {count}</p>
+                </div>
+                <button type="button" className="counter" onClick={() => setCount(count + 1)}>
+                    Aumentar: {count}
+                </button>
+            </section>
 
-      <div className="ticks"></div>
-          <section id="spacer"></section>
-          <div>
-              <h1>Bienvenido a Chostito</h1>
-              <ListaEventos />
-          </div>
-    </>
-  )
+            <section id="next-steps">
+                {!isLoggedIn ? (
+                    /* Pasamos la función para actualizar el estado al hijo */
+                    <Login onLoginSuccess={() => setIsLoggedIn(true)} />
+                ) : (
+                    <>
+                        <div style={{ textAlign: 'right', padding: '10px' }}>
+                            <button onClick={handleLogout} className="btn-logout">Cerrar Sesión</button>
+                        </div>
+                        <ListaEventos />
+                    </>
+                )}
+            </section>
+
+            {/* Resto de tu HTML de documentación... */}
+        </>
+    )
 }
 
 export default App;
