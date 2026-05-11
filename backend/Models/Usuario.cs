@@ -9,6 +9,7 @@ public class Usuario
     public string? Telefono { get; set; }
     public string Rol { get; set; } = "Cliente";
     public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
+    public string? FotoUrl { get; set; }
 
     public ICollection<Evento>? EventosOrganizados { get; set; }
     public ICollection<Reserva>? Reservas { get; set; }

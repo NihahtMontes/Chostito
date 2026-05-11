@@ -27,7 +27,26 @@ public class ReservasController : ControllerBase
         int cantidadTotal = 0;
         var entradasCreadas = new List<Entrada>();
 
-        foreach (var item in dto.Items)
+        if (dto.IdsEntradas != null && dto.IdsEntradas.Any())
+        {
+            var entradas = await _context.Entradas
+                .Where(e => dto.IdsEntradas.Contains(e.Id) && e.Estado == "Activa" && e.IdReserva == null)
+                .ToListAsync();
+
+            if (entradas.Count != dto.IdsEntradas.Count)
+                return BadRequest(new { message = "Algunos asientos ya no estan disponibles" });
+
+            foreach (var entrada in entradas)
+            {
+                total += entrada.Precio;
+                cantidadTotal++;
+                entradasCreadas.Add(entrada);
+            }
+        }
+
+        if (dto.Items != null && dto.Items.Any())
+        {
+            foreach (var item in dto.Items)
         {
             var evento = await _context.Eventos.FindAsync(item.IdEvento);
             if (evento == null) return BadRequest(new { message = $"Evento {item.IdEvento} no encontrado" });
@@ -51,8 +70,9 @@ public class ReservasController : ControllerBase
                 entradasCreadas.Add(entrada);
             }
         }
+    }
 
-        if (entradasCreadas.Count == 0) return BadRequest(new { message = "No se seleccionaron entradas validas" });
+    if (entradasCreadas.Count == 0) return BadRequest(new { message = "No se seleccionaron entradas validas" });
 
         var reserva = new Reserva
         {
@@ -192,7 +212,8 @@ public class ReservasController : ControllerBase
                 CodigoQR = e.CodigoQR,
                 Estado = e.Estado,
                 Evento = e.Evento!.Titulo,
-                FechaEvento = e.Evento.Fecha
+                FechaEvento = e.Evento.Fecha,
+                NumeroAsiento = e.NumeroAsiento
             }).ToList(),
             Pago = r.Pago != null ? new PagoResponseDTO
             {

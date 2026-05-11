@@ -48,6 +48,7 @@ public class DashboardController : ControllerBase
                 e.Titulo,
                 e.Fecha,
                 e.Estado,
+                e.ImagenUrl,
                 EntradasVendidas = _context.Entradas.Count(en => en.IdEvento == e.Id && en.IdReserva != null),
                 EntradasTotales = _context.Entradas.Count(en => en.IdEvento == e.Id),
                 TotalRecaudado = _context.Entradas
@@ -58,6 +59,31 @@ public class DashboardController : ControllerBase
             .ToListAsync();
 
         return ventas;
+    }
+
+    [HttpGet("todas-ganancias")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<IEnumerable<object>>> GetTodasGanancias()
+    {
+        var ganancias = await _context.Eventos
+            .Include(e => e.Organizador)
+            .Select(e => new
+            {
+                e.Id,
+                e.Titulo,
+                Organizador = e.Organizador!.Nombre,
+                e.Estado,
+                e.ImagenUrl,
+                EntradasVendidas = _context.Entradas.Count(en => en.IdEvento == e.Id && en.IdReserva != null),
+                EntradasTotales = _context.Entradas.Count(en => en.IdEvento == e.Id),
+                TotalRecaudado = _context.Entradas
+                    .Where(en => en.IdEvento == e.Id && en.IdReserva != null)
+                    .Sum(en => (decimal?)en.Precio) ?? 0
+            })
+            .OrderByDescending(v => v.TotalRecaudado)
+            .ToListAsync();
+
+        return ganancias;
     }
 
     [HttpPost("entradas/escanear")]
@@ -77,12 +103,19 @@ public class DashboardController : ControllerBase
         entrada.Estado = "Usada";
         await _context.SaveChangesAsync();
 
+        var reserva = entrada.Reserva;
+        var comprador = await _context.Usuarios.FindAsync(reserva!.IdUsuario);
+        var pago = await _context.Pagos.FirstOrDefaultAsync(p => p.IdReserva == reserva.Id);
+
         return Ok(new
         {
             message = "Entrada validada exitosamente",
             tipo = entrada.Tipo,
             evento = entrada.Evento!.Titulo,
-            fecha = entrada.Evento.Fecha
+            fecha = entrada.Evento.Fecha,
+            comprador = comprador?.Nombre ?? "Desconocido",
+            emailComprador = comprador?.Email,
+            codigoTransaccion = pago?.CodigoTransaccion
         });
     }
 }

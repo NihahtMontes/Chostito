@@ -32,7 +32,7 @@ public class LugaresController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<ActionResult<Lugar>> Create(Lugar lugar)
     {
         _context.Lugares.Add(lugar);
@@ -41,7 +41,7 @@ public class LugaresController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<IActionResult> Update(int id, Lugar lugar)
     {
         if (id != lugar.Id) return BadRequest();
@@ -52,7 +52,7 @@ public class LugaresController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<IActionResult> Delete(int id)
     {
         var lugar = await _context.Lugares.FindAsync(id);

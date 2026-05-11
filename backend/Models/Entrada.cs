@@ -7,6 +7,7 @@ public class Entrada
     public decimal Precio { get; set; }
     public string CodigoQR { get; set; } = Guid.NewGuid().ToString();
     public string Estado { get; set; } = "Activa";
+    public string? NumeroAsiento { get; set; }
 
     public int? IdReserva { get; set; }
     public Reserva? Reserva { get; set; }

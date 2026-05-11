@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ChostitoDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddCors(options =>
 {
@@ -44,9 +45,25 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+var webRoot = app.Environment.WebRootPath;
+if (string.IsNullOrWhiteSpace(webRoot))
+{
+    webRoot = Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+    app.Environment.WebRootPath = webRoot;
+}
+Directory.CreateDirectory(Path.Combine(webRoot, "uploads"));
+Directory.CreateDirectory(Path.Combine(webRoot, "uploads", "perfiles"));
+
+// Habilitar Swagger siempre para que el usuario pueda probarlo fácilmente
+app.UseSwagger();
+app.UseSwaggerUI();
 
 if (app.Environment.IsDevelopment())
 {
@@ -54,7 +71,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();

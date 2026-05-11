@@ -41,6 +41,7 @@ public class EventoResponseDTO
     public string Lugar { get; set; } = string.Empty;
     public string Ciudad { get; set; } = string.Empty;
     public string Pais { get; set; } = string.Empty;
+    public decimal PrecioMinimo { get; set; }
 }
 
 public class EntradaCreateDTO
@@ -48,6 +49,8 @@ public class EntradaCreateDTO
     public string Tipo { get; set; } = string.Empty;
     public decimal Precio { get; set; }
     public int Cantidad { get; set; }
+    public string? Seccion { get; set; }
+    public int? AsientosPorSeccion { get; set; }
 }
 
 public class EntradaResponseDTO
@@ -56,4 +59,19 @@ public class EntradaResponseDTO
     public string Tipo { get; set; } = string.Empty;
     public decimal Precio { get; set; }
     public int CantidadDisponible { get; set; }
+    public int CantidadVendida { get; set; }
+    public int CantidadTotal { get; set; }
+}
+
+public class AsientoDTO
+{
+    public int Id { get; set; }
+    public string Numero { get; set; } = string.Empty;
+    public string Estado { get; set; } = string.Empty;
+}
+
+public class SeccionAsientosDTO
+{
+    public string Seccion { get; set; } = string.Empty;
+    public List<AsientoDTO> Asientos { get; set; } = new();
 }

@@ -44,6 +44,8 @@ public class AuthService
             Nombre = usuario.Nombre,
             Email = usuario.Email,
             Rol = usuario.Rol,
+            Telefono = usuario.Telefono,
+            FotoUrl = usuario.FotoUrl,
             FechaRegistro = usuario.FechaRegistro
         };
     }
@@ -61,6 +63,8 @@ public class AuthService
             Nombre = usuario.Nombre,
             Email = usuario.Email,
             Rol = usuario.Rol,
+            Telefono = usuario.Telefono,
+            FotoUrl = usuario.FotoUrl,
             FechaRegistro = usuario.FechaRegistro
         };
     }

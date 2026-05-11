@@ -15,6 +15,7 @@ public class ChostitoDbContext : DbContext
     public DbSet<Entrada> Entradas { get; set; }
     public DbSet<Pago> Pagos { get; set; }
     public DbSet<Favorito> Favoritos { get; set; }
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
