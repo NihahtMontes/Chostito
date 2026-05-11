@@ -32,7 +32,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<ActionResult<Categoria>> Create(Categoria categoria)
     {
         _context.Categorias.Add(categoria);
@@ -41,7 +41,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<IActionResult> Update(int id, Categoria categoria)
     {
         if (id != categoria.Id) return BadRequest();
@@ -52,7 +52,7 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Organizador")]
     public async Task<IActionResult> Delete(int id)
     {
         var categoria = await _context.Categorias.FindAsync(id);

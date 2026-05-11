@@ -60,7 +60,9 @@ public static class SeedData
             Pais = "Argentina",
             Ciudad = "Buenos Aires",
             Ambiente = "Estadio",
-            CapacidadTotal = 70000
+            CapacidadTotal = 70000,
+            Latitud = -34.5453m,
+            Longitud = -58.4497m
         };
         var teatroColon = new Lugar
         {
@@ -69,7 +71,9 @@ public static class SeedData
             Pais = "Argentina",
             Ciudad = "Buenos Aires",
             Ambiente = "Teatro",
-            CapacidadTotal = 2500
+            CapacidadTotal = 2500,
+            Latitud = -34.6011m,
+            Longitud = -58.3832m
         };
         var auditorio = new Lugar
         {
@@ -78,7 +82,9 @@ public static class SeedData
             Pais = "Argentina",
             Ciudad = "Buenos Aires",
             Ambiente = "Auditorio",
-            CapacidadTotal = 5000
+            CapacidadTotal = 5000,
+            Latitud = -34.5602m,
+            Longitud = -58.5087m
         };
 
         context.Lugares.AddRange(estadio, teatroColon, auditorio);

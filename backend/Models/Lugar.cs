@@ -10,6 +10,8 @@ public class Lugar
     public string Ambiente { get; set; } = string.Empty;
     public int CapacidadTotal { get; set; }
     public string? ImagenUrl { get; set; }
+    public decimal? Latitud { get; set; }
+    public decimal? Longitud { get; set; }
 
     public ICollection<Evento>? Eventos { get; set; }
 }

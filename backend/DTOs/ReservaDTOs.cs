@@ -3,6 +3,7 @@ namespace Web_Api_Proyecto.DTOs;
 public class ReservaCreateDTO
 {
     public List<ReservaItemDTO> Items { get; set; } = new();
+    public List<int>? IdsEntradas { get; set; }
 }
 
 public class ReservaItemDTO
@@ -32,6 +33,7 @@ public class EntradaDetalleDTO
     public string Estado { get; set; } = string.Empty;
     public string Evento { get; set; } = string.Empty;
     public DateTime FechaEvento { get; set; }
+    public string? NumeroAsiento { get; set; }
 }
 
 public class PagoResponseDTO

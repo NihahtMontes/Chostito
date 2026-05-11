@@ -1,0 +1,27 @@
+import * as SecureStore from 'expo-secure-store';
+
+export const setToken = async (token) => {
+  await SecureStore.setItemAsync('token', token);
+};
+
+export const getToken = async () => {
+  return await SecureStore.getItemAsync('token');
+};
+
+export const removeToken = async () => {
+  await SecureStore.deleteItemAsync('token');
+};
+
+export const setUser = async (user) => {
+  await SecureStore.setItemAsync('user', JSON.stringify(user));
+};
+
+export const getUser = async () => {
+  const data = await SecureStore.getItemAsync('user');
+  return data ? JSON.parse(data) : null;
+};
+
+export const clearAuth = async () => {
+  await removeToken();
+  await SecureStore.deleteItemAsync('user');
+};

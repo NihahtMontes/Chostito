@@ -67,8 +67,11 @@ namespace Web_Api_Proyecto.Migrations
                     b.Property<int>("IdEvento")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdReserva")
+                    b.Property<int?>("IdReserva")
                         .HasColumnType("int");
+
+                    b.Property<string>("NumeroAsiento")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
                         .HasPrecision(10, 2)
@@ -202,6 +205,12 @@ namespace Web_Api_Proyecto.Migrations
                     b.Property<string>("ImagenUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("Latitud")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Longitud")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -258,6 +267,32 @@ namespace Web_Api_Proyecto.Migrations
                     b.ToTable("Pagos");
                 });
 
+            modelBuilder.Entity("Web_Api_Proyecto.Models.PasswordResetToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Expira")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Usado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordResetTokens");
+                });
+
             modelBuilder.Entity("Web_Api_Proyecto.Models.Reserva", b =>
                 {
                     b.Property<int>("Id")
@@ -307,6 +342,9 @@ namespace Web_Api_Proyecto.Migrations
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -343,8 +381,7 @@ namespace Web_Api_Proyecto.Migrations
                     b.HasOne("Web_Api_Proyecto.Models.Reserva", "Reserva")
                         .WithMany("Entradas")
                         .HasForeignKey("IdReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Evento");
 
